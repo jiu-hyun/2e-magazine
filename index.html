@@ -4,28 +4,23 @@
   <title>My PDF Viewer</title>
   <!-- PDF.js 스크립트 링크 추가 -->
   <script>
-  // PDF 파일 경로 설정
-  var url = 'path/to/your/document.pdf';
+  var url = 'https://github.com/jiu-hyun/2e-magazine/raw/main/현대미술을위한도구_1호.pdf';
 
-  // PDF.js 라이브러리를 사용하여 PDF 로드
   var loadingTask = pdfjsLib.getDocument(url);
   loadingTask.promise.then(function(pdf) {
     console.log('PDF loaded');
     
-    // 첫 번째 페이지를 가져오기
     pdf.getPage(1).then(function(page) {
       console.log('Page loaded');
       
-      var scale = 1.5; // 렌더링할 때의 확대 배율
+      var scale = 1.5; // 확대 배율
       var viewport = page.getViewport({scale: scale});
 
-      // Canvas 준비
       var canvas = document.getElementById('pdf-canvas');
       var context = canvas.getContext('2d');
       canvas.height = viewport.height;
       canvas.width = viewport.width;
 
-      // 페이지 렌더링 설정
       var renderContext = {
         canvasContext: context,
         viewport: viewport
@@ -36,10 +31,10 @@
       });
     });
   }, function (reason) {
-    // PDF 로딩 에러
-    console.error(reason);
+    console.error('Error: ' + reason);
   });
 </script>
+
 
     // PDF.js를 사용하여 PDF를 로드하고 렌더링하는 스크립트 작성
   </script>
