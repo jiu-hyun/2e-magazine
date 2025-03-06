@@ -3,14 +3,44 @@
 <head>
   <title>My PDF Viewer</title>
   <!-- PDF.js 스크립트 링크 추가 -->
-  <script src="path/to/pdf.js"></script>
-</head>
-<body>
-  <h1>Welcome to My PDF Viewer</h1>
-  <p>This is a basic HTML page with PDF.js included.</p>
-  <!-- PDF.js 뷰어가 적용될 Canvas 요소 -->
-  <canvas id="pdf-canvas"></canvas>
   <script>
+  // PDF 파일 경로 설정
+  var url = 'path/to/your/document.pdf';
+
+  // PDF.js 라이브러리를 사용하여 PDF 로드
+  var loadingTask = pdfjsLib.getDocument(url);
+  loadingTask.promise.then(function(pdf) {
+    console.log('PDF loaded');
+    
+    // 첫 번째 페이지를 가져오기
+    pdf.getPage(1).then(function(page) {
+      console.log('Page loaded');
+      
+      var scale = 1.5; // 렌더링할 때의 확대 배율
+      var viewport = page.getViewport({scale: scale});
+
+      // Canvas 준비
+      var canvas = document.getElementById('pdf-canvas');
+      var context = canvas.getContext('2d');
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+
+      // 페이지 렌더링 설정
+      var renderContext = {
+        canvasContext: context,
+        viewport: viewport
+      };
+      var renderTask = page.render(renderContext);
+      renderTask.promise.then(function () {
+        console.log('Page rendered');
+      });
+    });
+  }, function (reason) {
+    // PDF 로딩 에러
+    console.error(reason);
+  });
+</script>
+
     // PDF.js를 사용하여 PDF를 로드하고 렌더링하는 스크립트 작성
   </script>
 </body>
